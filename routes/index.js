@@ -8,7 +8,7 @@ const router = express.Router();
 
 // at "/ " render the welcome view
 router.get("/", (req, res) => {
-  res.render("welcome"),
+  res.render("home"),
     {
       myCss: myCss,
     };
