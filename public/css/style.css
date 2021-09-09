@@ -7,3 +7,7 @@ body {
   font-size: 10px;
   margin: 1rem;
 }
+
+#clock {
+  margin-right: 2rem !important;
+}

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs");
 
 //use later with EJS?
-// const myCss = {
-//   style: fs.readFileSync("./public/css/style.css", "utf8"),
-// };
+const myCss = {
+  style: fs.readFileSync("./public/css/style.css", "utf8"),
+};
 
 // at "/ " render the welcome view
 router.get("/", (req, res) => {

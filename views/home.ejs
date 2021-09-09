@@ -1,24 +1,110 @@
 <div class="welcome">
-  <div
-    class="
-      uk-child-width-1-3@m
-      uk-grid-medium
-      uk-grid-match
-      uk-margin-large-top
-      uk-flex-center
-    "
-    uk-grid
-  >
-    <div class="uk-card uk-card-body glass welcome__card">
-      <h3 class="uk-card-title uk-text-center welcome__title">
-        Pest Scheduler
-      </h3>
-      <!-- <a href="/users/login" class="welcome__anchor welcome__anchor--link">
-        Login
-      </a>
-      <a href="/users/signup" class="welcome__anchor welcome__anchor--link">
-        Sign Up
-      </a> -->
+  <nav class="uk-navbar-container" uk-navbar>
+    <!--NAV LEFT-->
+    <div class="uk-navbar-left">
+      <ul class="uk-navbar-nav">
+        <li class="uk-active nav__title"><a href="#">Pest Scheduler</a></li>
+        <li class="uk-active"><a href="#">Dashboard</a></li>
+        <!-- <li><a href="#">Item</a></li> -->
+      </ul>
     </div>
-  </div>
+    <!--NAV RIGHT-->
+    <div class="uk-navbar-right uk-marin-large-left">
+      <ul class="uk-navbar-nav">
+        <!-- <li><a href="#">Item</a></li> -->
+        <li class="uk-active clock">
+          <!--Digital Clock-->
+          <div id="clockdate">
+            <div class="clockdate-wrapper">
+              <div id="clock"></div>
+              <div class="uk-margin-right" id="date"></div>
+            </div>
+          </div>
+        </li>
+        <li class="uk-active"></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!--title-->
+  <h1 class="uk-text-center">Today's Schedule</h1>
+  <!--TABLE-->
+
+  <table class="uk-table uk-table-striped">
+    <thead>
+      <tr>
+        <th>Table Heading</th>
+        <th>Table Heading</th>
+        <th>Table Heading</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+<script>
+  window.onload = function startTime() {
+    console.log("hello clock");
+    var today = new Date();
+    var hr = today.getHours();
+    var min = today.getMinutes();
+    var sec = today.getSeconds();
+    ap = hr < 12 ? "<span>AM</span>" : "<span>PM</span>";
+    hr = hr == 0 ? 12 : hr;
+    hr = hr > 12 ? hr - 12 : hr;
+    //Add a zero in front of numbers<10
+    hr = checkTime(hr);
+    min = checkTime(min);
+    sec = checkTime(sec);
+    document.getElementById("clock").innerHTML =
+      hr + ":" + min + ":" + sec + " " + ap;
+
+    var months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var curWeekDay = days[today.getDay()];
+    var curDay = today.getDate();
+    var curMonth = months[today.getMonth()];
+    var curYear = today.getFullYear();
+    var date =
+      curWeekDay + ", " + curDay + " " + curMonth + " " + curYear + " ";
+    document.getElementById("date").innerHTML = date;
+
+    var time = setTimeout(function () {
+      startTime();
+    }, 500);
+  };
+  function checkTime(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+</script>
