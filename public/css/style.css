@@ -4,10 +4,14 @@
 }
 
 body {
-  font-size: 10px;
+  font-size: 14px;
   margin: 1rem;
 }
 
 #clock {
   margin-right: 2rem !important;
+}
+
+.home__title {
+  font-size: 3rem !important;
 }

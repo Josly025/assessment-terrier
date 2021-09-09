@@ -23,6 +23,11 @@ app.use(express.static(__dirname + "/public"));
 //ROUTES!!! - index routes
 app.use("/", require("./routes/index.js"));
 
+// CSV file name -- as variables
+const locationsCSV = "./csv/locations.csv";
+const techniciansCSV = "./csv/technicians.csv";
+const workordersCSV = "./csv/work_orders.csv";
+
 /////// Importing mysql and csvtojson packages
 
 // Establish connection to the database
@@ -31,59 +36,183 @@ let con = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "Grantjos12",
-  database: "pest_scheduler",
 });
-
-// CSV file name -- as variables
-const locationsCSV = "./csv/locations.csv";
-const techniciansCSV = "./csv/technicians.csv";
-const workordersCSV = "./csv/work_orders.csv";
 
 con.connect((err) => {
   if (err) return console.error("error: CANT CONNECT" + err.message);
-
-  con.query("DROP TABLE locations", (err, drop) => {
-    // Query to create table "locations"
-    let createStatament =
-      "CREATE TABLE locations(id int, " + "name char(50), city char(30))";
-
-    // Creating table "locations"
-    con.query(createStatament, (err, drop) => {
-      if (err) console.log("ERROR: ", err);
-    });
+  console.log("Connected!");
+  //Create Database
+  con.query("DROP DATABASE IF EXISTS pest_scheduler", (err, drop) => {
+    console.log("deleted database --> pest_scheduler");
+  });
+  con.query("CREATE DATABASE pest_scheduler", function (err, result) {
+    if (err) throw err;
+    console.log("Database Created --> pest_scheduler");
+    createTables();
   });
 });
 
-csvtojson()
-  .fromFile(locationsCSV)
-  .then((source) => {
-    // Fetching the data from each row
-    // and inserting to the table "locations"
-    for (var i = 0; i < source.length; i++) {
-      let id = source[i]["id"],
-        name = source[i]["name"],
-        city = source[i]["city"];
+let conTwo = mysql.createConnection({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "Grantjos12",
+  database: "pest_scheduler",
+});
 
-      let insertStatement = `INSERT INTO locations values(?, ?, ?)`;
-      let items = [id, name, city];
+function createTables() {
+  conTwo.connect((err) => {
+    if (err) return console.error("error: CANT CONNECT" + err.message);
 
-      // Inserting data of current row
-      // into database
-      con.query(insertStatement, items, (err, results, fields) => {
-        if (err) {
-          console.log("Unable to insert item at row ", i + 1);
-          return console.log(err);
-        } else {
-          console.log("All items stored into database successfully");
-          console.log(results);
-        }
+    //CREATE TABLE LOCATIONS
+    conTwo.query("DROP TABLE IF EXISTS locations", (err, drop) => {
+      // Query to create table "locations"
+      let createStatamentLoc =
+        "CREATE TABLE locations(id int, " + "name char(50), city char(30))";
+
+      // Creating table "locations"
+      conTwo.query(createStatamentLoc, (err, drop) => {
+        if (err) console.log("ERROR: ", err);
+        console.log("Table created --> locations");
+        insertCSV();
       });
-    }
+    });
 
-    con.query("SELECT * FROM locations", function (error, results, fields) {
-      console.log(results);
+    conTwo.query("DROP TABLE IF EXISTS technicians", (err, drop) => {
+      // Query to create table "technicians"
+      let createStatamentTech =
+        "CREATE TABLE technicians(id int, " + "name char(50))";
+
+      // Creating table "locations"
+      conTwo.query(createStatamentTech, (err, drop) => {
+        if (err) console.log("ERROR: ", err);
+        console.log("Table created --> technicians");
+      });
+    });
+
+    conTwo.query("DROP TABLE IF EXISTS work_orders", (err, drop) => {
+      // Query to create table "word_orders"
+      let createStatamentWork =
+        "CREATE TABLE work_orders(id int, " +
+        "technician_id int, location_id int, time datetime, duration int, price int)";
+
+      // Creating table "locations"
+      conTwo.query(createStatamentWork, (err, drop) => {
+        if (err) console.log("ERROR: ", err);
+        console.log("Table created --> work_orders");
+        //CALLBACK insertCSV
+        insertCSV();
+      });
     });
   });
+}
+
+function insertCSV() {
+  //import Locations CSV
+  csvtojson()
+    .fromFile(locationsCSV)
+    .then((source) => {
+      // Fetching the data from each row
+      // and inserting to the table "locations"
+      for (var i = 0; i < source.length; i++) {
+        let Id = source[i]["id"],
+          Name = source[i]["name"],
+          City = source[i]["city"];
+
+        let insertStatement = `INSERT INTO locations values(?, ?, ?)`;
+        let items = [Id, Name, City];
+
+        // Inserting data of current row
+        // into database
+        conTwo.query(insertStatement, items, (err, results, fields) => {
+          if (err) {
+            console.log("Unable to insert item at row ", i + 1);
+            return console.log(err);
+          } else {
+            console.log(results);
+          }
+        });
+        console.log("All items stored into database successfully");
+      }
+
+      con.query("SELECT * FROM locations", function (error, results, fields) {
+        console.log(results);
+      });
+    });
+
+  //import technicians CSV
+  csvtojson()
+    .fromFile(techniciansCSV)
+    .then((sourceTech) => {
+      // Fetching the data from each row
+      // and inserting to the table "locations"
+      for (var i = 0; i < sourceTech.length; i++) {
+        let idTech = sourceTech[i]["id"],
+          nameTech = sourceTech[i]["name"];
+
+        let insertStatementTech = `INSERT INTO technicians values(?, ?)`;
+        let itemsTech = [idTech, nameTech];
+
+        // Inserting data of current row
+        // into database
+        conTwo.query(insertStatementTech, itemsTech, (err, results, fields) => {
+          if (err) {
+            console.log("Unable to insert item at row ", i + 1);
+            return console.log(err);
+          } else {
+            console.log(results);
+          }
+        });
+        console.log("All items stored into database successfully");
+      }
+
+      con.query("SELECT * FROM technicians", function (error, results, fields) {
+        console.log(results);
+      });
+    });
+
+  // //import work_orders CSV
+  csvtojson()
+    .fromFile(workordersCSV)
+    .then((sourceWork) => {
+      // Fetching the data from each row
+      // and inserting to the table "locations"
+      for (var i = 0; i < sourceWork.length; i++) {
+        let idWork = sourceWork[i]["id"],
+          techWork = sourceWork[i]["technician_id"],
+          locationWork = sourceWork[i]["location_id"],
+          timeWork = sourceWork[i]["time"],
+          durationWork = sourceWork[i]["duration"],
+          priceWork = sourceWork[i]["price"];
+
+        let insertStatementWork = `INSERT INTO work_orders values(?, ?, ?, ?, ?, ?)`;
+        let itemsWork = [
+          idWork,
+          techWork,
+          locationWork,
+          timeWork,
+          durationWork,
+          priceWork,
+        ];
+
+        // Inserting data of current row
+        // into database
+        conTwo.query(insertStatementWork, itemsWork, (err, results, fields) => {
+          if (err) {
+            console.log("Unable to insert item at row ", i + 1);
+            return console.log(err);
+          } else {
+            console.log(results);
+          }
+        });
+        console.log("All items stored into database successfully");
+      }
+
+      con.query("SELECT * FROM work_orders", function (error, results, fields) {
+        console.log(results);
+      });
+    });
+}
 
 /////
 // Start our server so that it can begin listening to client requests.
