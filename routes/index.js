@@ -1,18 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const fs = require("fs");
+// const express = require("express");
+// const fs = require("fs");
 
-//use later with EJS?
-const myCss = {
-  style: fs.readFileSync("./public/css/style.css", "utf8"),
-};
+// const myCss = {
+//   style: fs.readFileSync("./public/css/style.css", "utf8"),
+// };
 
-// at "/ " render the welcome view
-router.get("/", (req, res) => {
-  res.render("home"),
-    {
-      myCss: myCss,
-    };
-});
+// const router = express.Router();
 
-module.exports = router;
+// router.get("/", (req, res) => {
+//   res.render("home"),
+//     {
+//       myCss: myCss,
+//     };
+// });
+
+// module.exports = router;

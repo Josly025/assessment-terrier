@@ -20,15 +20,17 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
-//ROUTES!!! - index routes
-app.use("/", require("./routes/index.js"));
 
+//ROUTES!!! - index --controllers MVC
+// let routes = require("./routes/index");
+// const { RSA_NO_PADDING } = require("constants");
+// app.use(routes);
+
+/////// Importing mysql and csvtojson packages   ////////
 // CSV file name -- as variables
 const locationsCSV = "./csv/locations.csv";
 const techniciansCSV = "./csv/technicians.csv";
 const workordersCSV = "./csv/work_orders.csv";
-
-/////// Importing mysql and csvtojson packages
 
 // Establish connection to the database
 let con = mysql.createConnection({
@@ -40,7 +42,7 @@ let con = mysql.createConnection({
 
 con.connect((err) => {
   if (err) return console.error("error: CANT CONNECT" + err.message);
-  console.log("Connected!");
+  // console.log("Connected!");
   //Create Database
   con.query("DROP DATABASE IF EXISTS pest_scheduler", (err, drop) => {
     console.log("deleted database --> pest_scheduler");
@@ -129,10 +131,9 @@ function insertCSV() {
             console.log("Unable to insert item at row ", i + 1);
             return console.log(err);
           } else {
-            console.log(results);
+            // console.log(results);
           }
         });
-        console.log("All items stored into database successfully");
       }
 
       con.query("SELECT * FROM locations", function (error, results, fields) {
@@ -160,10 +161,9 @@ function insertCSV() {
             console.log("Unable to insert item at row ", i + 1);
             return console.log(err);
           } else {
-            console.log(results);
+            // console.log(results);
           }
         });
-        console.log("All items stored into database successfully");
       }
 
       con.query("SELECT * FROM technicians", function (error, results, fields) {
@@ -202,17 +202,71 @@ function insertCSV() {
             console.log("Unable to insert item at row ", i + 1);
             return console.log(err);
           } else {
-            console.log(results);
+            // console.log(results);
           }
         });
-        console.log("All items stored into database successfully");
       }
 
       con.query("SELECT * FROM work_orders", function (error, results, fields) {
         console.log(results);
       });
     });
+
+  //Get all employees
 }
+
+////////ROUTES//////////
+
+const fs = require("fs");
+
+const myCss = {
+  style: fs.readFileSync("./public/css/style.css", "utf8"),
+};
+
+// app.get("/", (req, res) => {
+//   res.render("home"),
+//     {
+//       myCss: myCss,
+//     };
+// });
+
+app.get("/", (req, res) => {
+  conTwo.query("SELECT * FROM locations", (err, results) => {
+    if (err) throw err;
+    ///
+    let locationsData = results;
+
+    //Render Home page and show data
+    res.render("home", {
+      locationsData: locationsData,
+    }),
+      {
+        myCss: myCss,
+      };
+  });
+});
+
+app.get("/technicians", (req, res) => {
+  conTwo.query(
+    "SELECT technicians.id, technicians.name, work_orders.technician_id, work_orders.location_id, work_orders.time, work_orders.duration, work_orders.price " +
+      "FROM technicians " +
+      "INNER JOIN work_orders " +
+      "ON technicians.id=work_orders.technician_id;",
+    (err, results) => {
+      if (err) throw err;
+      console.log(results);
+      res.send("technicians fetched...");
+    }
+  );
+});
+
+app.get("/workorders", (red, res) => {
+  conTwo.query("SELECT * FROM work_orders", (err, results) => {
+    if (err) throw err;
+    console.log(results);
+    res.send("Work Orders Fetched....");
+  });
+});
 
 /////
 // Start our server so that it can begin listening to client requests.

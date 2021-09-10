@@ -4,7 +4,7 @@
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav">
         <li class="uk-active nav__title home__title">
-          <a href="#">Pest Scheduler</a>
+          <a class="uk-text-primary" href="#">Pest Scheduler</a>
         </li>
         <li class="uk-active home__dash"><a href="#">Dashboard</a></li>
         <!-- <li><a href="#">Item</a></li> -->
@@ -35,29 +35,84 @@
   <table class="uk-table uk-table-striped">
     <thead>
       <tr>
-        <th>Table Heading</th>
-        <th>Table Heading</th>
-        <th>Table Heading</th>
+        <th class="uk-text-primary uk-text-bolder">Time</th>
+        <th>Tech</th>
+        <th>Tech</th>
+        <th>Tech</th>
+        <th>Tech</th>
       </tr>
     </thead>
     <tbody>
       <tr>
+        <td class="uk-text-bolder">8:00</td>
         <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
         <td>Table Data</td>
         <td>Table Data</td>
         <td>Table Data</td>
       </tr>
       <tr>
+        <td class="uk-text-bolder">9:00 am</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">10:00 am</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">11:00 am</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">Noon</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">1:00 pm</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">2:00 pm</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">3:00 pm</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+        <td>Table Data</td>
+      </tr>
+      <tr>
+        <td class="uk-text-bolder">4:00 pm</td>
+        <td>Table Data</td>
         <td>Table Data</td>
         <td>Table Data</td>
         <td>Table Data</td>
       </tr>
     </tbody>
   </table>
+
+  <!--Import table partial-->
+  <%- include ("./partials/table.ejs")%>
+
+  <!--END TABLE-->
 </div>
 <script>
   window.onload = function startTime() {
