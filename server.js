@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
-
+// mysql://b0271aae1e7595:0ccbecc9@us-cdbr-east-04.cleardb.com/heroku_7b5ec50f113ac11?reconnect=true
 const expressLayouts = require("express-ejs-layouts");
 // Requiring module
 const csvtojson = require("csvtojson");
@@ -40,32 +40,32 @@ const workordersCSV = "./csv/work_orders.csv";
 
 // Establish connection to the database
 let con = mysql.createConnection({
-  host: "localhost",
+  host: "us-cdbr-east-04.cleardb.com",
   port: 3306,
-  user: "root",
-  password: "Grantjos12",
+  user: "b0271aae1e7595",
+  password: "0ccbecc9",
 });
-
+// mysql://b0271aae1e7595:0ccbecc9@us-cdbr-east-04.cleardb.com/heroku_7b5ec50f113ac11?reconnect=true
 con.connect((err) => {
   if (err) return console.error("error: CANT CONNECT" + err.message);
   // console.log("Connected!");
   //Create Database
-  con.query("DROP DATABASE IF EXISTS pest_scheduler", (err, drop) => {
-    console.log("deleted database --> pest_scheduler");
+  con.query("DROP DATABASE IF EXISTS heroku_7b5ec50f113ac11", (err, drop) => {
+    console.log("deleted database --> heroku_7b5ec50f113ac11");
   });
-  con.query("CREATE DATABASE pest_scheduler", function (err, result) {
+  con.query("CREATE DATABASE heroku_7b5ec50f113ac11", function (err, result) {
     if (err) throw err;
-    console.log("Database Created --> pest_scheduler");
+    console.log("Database Created --> heroku_7b5ec50f113ac11");
     createTables();
   });
 });
 
 let conTwo = mysql.createConnection({
-  host: "localhost",
+  host: "us-cdbr-east-04.cleardb.com",
   port: 3306,
-  user: "root",
-  password: "Grantjos12",
-  database: "pest_scheduler",
+  user: "b0271aae1e7595",
+  password: "0ccbecc9",
+  database: "heroku_7b5ec50f113ac11",
 });
 
 function createTables() {
