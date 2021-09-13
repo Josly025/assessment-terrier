@@ -29,90 +29,24 @@
   </nav>
 
   <!--title-->
-  <h1 class="uk-text-center">Today's Schedule</h1>
-  <!--TABLE-->
+  <div class="uk-card uk-card-primary uk-card-body uk-margin-large"><h3 class="uk-text-center">Today's Schedule</h3></div>
 
-  <table class="uk-table uk-table-striped">
-    <thead>
-      <tr>
-        <th class="uk-text-primary uk-text-bolder">Time</th>
-        <th>Tech</th>
-        <th>Tech</th>
-        <th>Tech</th>
-        <th>Tech</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="uk-text-bolder">8:00</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">9:00 am</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">10:00 am</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">11:00 am</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">Noon</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">1:00 pm</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">2:00 pm</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">3:00 pm</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-      <tr>
-        <td class="uk-text-bolder">4:00 pm</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-        <td>Table Data</td>
-      </tr>
-    </tbody>
+  <!--TABLE - NON-STANDARD-->
+  <div class="uk-grid-match uk-child-width-expand@s uk-text-center" uk-grid>
+    <div>
+        <%- include ("./partials/techsOne.ejs") %>
+     </div>
+    <div>
+          <%- include ("./partials/techsTwo.ejs") %>
+    </div>
+    <div>
+           <%- include ("./partials/techsThree.ejs") %>
+    </div>
+    <div>
+           <%- include ("./partials/techsFour.ejs") %>
+    </div>
+</div>
   </table>
-
-  <!--Import table partial-->
-  <%- include ("./partials/table.ejs")%>
-
-  <!--END TABLE-->
 </div>
 <script>
   window.onload = function startTime() {

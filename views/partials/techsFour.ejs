@@ -1,0 +1,17 @@
+<ul class="uk-list uk-text-center">
+  <h3 class="uk-heading-line uk-text-center"><span>Alice Jones</span></h3>
+  <% orderData.map((order) => { %> <% let orderData = order; let time =
+  order.time.toLocaleTimeString().substring(0, 2); let hour =
+  order.time.toLocaleTimeString().slice(-3);%> <% let timeHour =
+  orderData.technician_id + time + hour;
+  console.log(orderData.time.toLocaleTimeString())%> <%
+  if(orderData.technician_id === 4 ){ %>
+  <li>
+    <button class="uk-button uk-button-primary uk-button-large">
+      <%= orderData.time.toLocaleTimeString() %><br />
+      <%= orderData.name %> - <%= orderData.duration %> Min.<br /><%=
+      orderData.city%> - $<%= orderData.price %>
+    </button>
+  </li>
+  <%}%> <% }) %>
+</ul>

@@ -1,0 +1,27 @@
+<ul class="uk-list uk-text-center">
+  <h3 class="uk-heading-line uk-text-center"><span>Bill Keller</span></h3>
+  <% orderData.map((order, i) => { %> <% let orderData = order; let time =
+  order.time.toLocaleTimeString().substring(0, 2); let hour =
+  order.time.toLocaleTimeString().slice(-3);%> <% let timeHour =
+  orderData.technician_id + time + hour; console.log(timeHour);%> <%
+  if(orderData.technician_id === 1 ){ %>
+
+
+
+
+
+
+
+  <li>
+    <button
+      type="button"
+      class="uk-button uk-button-primary uk-button-large"
+      onclick="UIkit.notification({message: "<%"time"%>", status: 'primary'})"
+    >
+      <%= orderData.time.toLocaleTimeString() %><br />
+      <%= orderData.name %> - <%= orderData.duration %> Min.<br /><%=
+      orderData.city%> - $<%= orderData.price %>
+    </button>
+  </li>
+  <%}%> <% }) %>
+</ul>

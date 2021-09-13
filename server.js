@@ -12,6 +12,12 @@ const app = express();
 // process.env.PORT lets the port be set by Heroku
 var PORT = process.env.PORT || 8081;
 
+///CSS vary for EJS
+const fs = require("fs");
+const myCss = {
+  style: fs.readFileSync("./public/css/style.css", "utf8"),
+};
+
 //ejs middlewearLayouts
 app.use(expressLayouts);
 app.set("view engine", "ejs");
@@ -103,7 +109,7 @@ function createTables() {
         if (err) console.log("ERROR: ", err);
         console.log("Table created --> work_orders");
         //CALLBACK insertCSV
-        insertCSV();
+        // insertCSV();
       });
     });
   });
@@ -135,10 +141,6 @@ function insertCSV() {
           }
         });
       }
-
-      con.query("SELECT * FROM locations", function (error, results, fields) {
-        console.log(results);
-      });
     });
 
   //import technicians CSV
@@ -165,10 +167,6 @@ function insertCSV() {
           }
         });
       }
-
-      con.query("SELECT * FROM technicians", function (error, results, fields) {
-        console.log(results);
-      });
     });
 
   // //import work_orders CSV
@@ -206,66 +204,34 @@ function insertCSV() {
           }
         });
       }
-
-      con.query("SELECT * FROM work_orders", function (error, results, fields) {
-        console.log(results);
-      });
     });
 
   //Get all employees
 }
 
-////////ROUTES//////////
-
-const fs = require("fs");
-
-const myCss = {
-  style: fs.readFileSync("./public/css/style.css", "utf8"),
-};
-
-// app.get("/", (req, res) => {
-//   res.render("home"),
-//     {
-//       myCss: myCss,
-//     };
-// });
-
 app.get("/", (req, res) => {
-  conTwo.query("SELECT * FROM locations", (err, results) => {
-    if (err) throw err;
-    ///
-    let locationsData = results;
-
-    //Render Home page and show data
-    res.render("home", {
-      locationsData: locationsData,
-    }),
-      {
-        myCss: myCss,
-      };
-  });
-});
-
-app.get("/technicians", (req, res) => {
   conTwo.query(
-    "SELECT technicians.id, technicians.name, work_orders.technician_id, work_orders.location_id, work_orders.time, work_orders.duration, work_orders.price " +
+    "SELECT technicians.id, technicians.name, work_orders.technician_id, work_orders.location_id, work_orders.time, work_orders.duration, work_orders.price, locations.id, locations.name, locations.city " +
       "FROM technicians " +
       "INNER JOIN work_orders " +
-      "ON technicians.id=work_orders.technician_id;",
+      "ON technicians.id=work_orders.technician_id " +
+      "INNER JOIN locations " +
+      "ON locations.id=work_orders.location_id " +
+      "ORDER BY " +
+      "technicians.id, work_orders.time",
     (err, results) => {
       if (err) throw err;
-      console.log(results);
-      res.send("technicians fetched...");
+      let orderData = results;
+      console.log(orderData);
+      //Render Home page and show data
+      res.render("home", {
+        orderData: orderData,
+      }),
+        {
+          myCss: myCss,
+        };
     }
   );
-});
-
-app.get("/workorders", (red, res) => {
-  conTwo.query("SELECT * FROM work_orders", (err, results) => {
-    if (err) throw err;
-    console.log(results);
-    res.send("Work Orders Fetched....");
-  });
 });
 
 /////
