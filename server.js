@@ -39,12 +39,18 @@ const techniciansCSV = "./csv/technicians.csv";
 const workordersCSV = "./csv/work_orders.csv";
 
 // Establish connection to the database
-let con = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "Grantjos12",
-});
+let con;
+
+if (process.env.JAWSDB_URL) {
+  con = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+  con = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "Grantjos12",
+  });
+}
 
 con.connect((err) => {
   if (err) return console.error("error: CANT CONNECT" + err.message);
@@ -60,13 +66,19 @@ con.connect((err) => {
   });
 });
 
-let conTwo = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "Grantjos12",
-  database: "pest_scheduler",
-});
+let conTwo;
+
+if (process.env.JAWSDB_URL) {
+  conTwo = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+  conTwo = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "Grantjos12",
+    database: "pest_scheduler",
+  });
+}
 
 function createTables() {
   conTwo.connect((err) => {

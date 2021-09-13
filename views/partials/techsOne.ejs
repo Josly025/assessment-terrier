@@ -5,18 +5,11 @@
   order.time.toLocaleTimeString().slice(-3);%> <% let timeHour =
   orderData.technician_id + time + hour; console.log(timeHour);%> <%
   if(orderData.technician_id === 1 ){ %>
-
-
-
-
-
-
-
   <li>
     <button
       type="button"
       class="uk-button uk-button-primary uk-button-large"
-      onclick="UIkit.notification({message: "<%"time"%>", status: 'primary'})"
+      onclick="UIkit.notification({message: 'time', status: 'primary'})"
     >
       <%= orderData.time.toLocaleTimeString() %><br />
       <%= orderData.name %> - <%= orderData.duration %> Min.<br /><%=
